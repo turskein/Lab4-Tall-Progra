@@ -7,6 +7,7 @@ Path::Path(int large){
     position = 0;
 }
 Path::~Path(){
+    delete[] taken;
 }
 
 void Path::add(Node *newNode){
@@ -15,13 +16,28 @@ void Path::add(Node *newNode){
     position ++;
 }
 
-Node* Path::getHighestDegree(){
-    Node *selected = path[1];
-    for (int i = 2; i < position-1; i++){
+Node *Path::getNode(int val){
+    return path[val];
+}
+
+int Path::getHighestDegree(){
+    int selected = 0;
+    for (int i = 1; i < position-1; i++){
         if(path[i]->getN() == N)
-            return path[i];
-        if(selected->getN() < path[i]->getN())
-            selected = path[i];
+            return i;
+        if(path[selected]->getN() < path[i]->getN())
+            selected = i;
+    }
+    return selected;
+}
+
+int Path::getSmallestDegree(){
+    int selected = 0;
+    for (int i = 1; i < position-1; i++){
+        if(path[i]->getN() == N)
+            return i;
+        if(path[selected]->getN() > path[i]->getN())
+            selected = i;
     }
     return selected;
 }
@@ -31,10 +47,19 @@ bool Path::istaken(Node *theNode){
 }
 
 Node *Path::getHead(){
-    return path[position];
+    return path[position-1];
 }
 
 int Path::getLength(){
     return position;
+}
+
+void Path::print(){
+    for (int i = 0; i < position; i++)
+    {
+        cout << getNode(i)->getId() << "-";
+    }
+    cout << endl;
+    
 }
 

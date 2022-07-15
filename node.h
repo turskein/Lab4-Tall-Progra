@@ -31,6 +31,8 @@ public:
     int getId();
     // Agregar nodo a los adyacentes de este
     void addAdy(Node *newAdy);
+    //Pertenece a los adyacentes
+    bool isAdy(Node *theAdy);
     // Obtener un nodo a través de su posición en el "ady"
     Node* getNode(int i);
     // Imprimir los identificadores de los nodos adyacentes

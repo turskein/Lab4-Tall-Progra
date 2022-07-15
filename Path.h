@@ -12,7 +12,10 @@ public:
     ~Path();
     void add(Node *newNode);
     bool istaken(Node *theNode);
-    Node* getHighestDegree();
+    int getHighestDegree();
+    int getSmallestDegree();
     Node *getHead();
+    Node *getNode(int position);
     int getLength();
+    void print();
 };

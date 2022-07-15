@@ -8,6 +8,14 @@ Node::Node(int i){
     id = i;
 }
 
+bool Node::isAdy(Node *theAdy){
+    for (int i = 0; i < N; i++){
+        if(getNode(i)->getId() == theAdy->getId())
+            return true;
+    }
+    return false;
+}
+
 Node::~Node(){
     ady.~vector();
 }

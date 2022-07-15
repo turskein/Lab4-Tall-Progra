@@ -6,15 +6,23 @@
 
 using namespace std;
 
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+
 class Solver
 {
 private:
     Graph *graph;
     Path *solution;
+    int sizeGraph;
+    int *freeAdy;
 public:
     Solver();
     Solver(Graph *objective);
     ~Solver();
+
+    /*Obtener los adyacentes de cada nodo*/
+    void getFreeAdy();
 
     /*Ordena de mayor a menor todos los nodos*/
     void sort();
@@ -30,5 +38,10 @@ public:
     /*Setea en 'solution' el camino mas largo considerando solo los nodos con mayor grado*/
     void getLongestPathForHighestDegree();
 
-    void solve();
+    /**/
+    bool rotationalTransformation(int opt);
+
+    Path *getPath();
+
+    bool solve();
 };

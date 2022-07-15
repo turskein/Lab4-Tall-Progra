@@ -9,6 +9,5 @@ public:
     quickSort(/* args */);
     ~quickSort();
     void solve(Node **lista,int n);
-    
 };
 

@@ -18,7 +18,7 @@ Graph::Graph(int cant, float p){
 }
 
 Graph::~Graph(){
-    delete[] nodes;
+
 }
 
 int Graph::getN(){
@@ -31,7 +31,7 @@ Node *Graph::getNode(int i){
 
 void Graph::print(){
     for(int i = 0; i < N; i++){
-        cout << nodes[i]->getId()<<".-> "<< nodes[i]->getN()<< "->";
+        cout << nodes[i]->getId()<<".-> "<< nodes[i]->getN()<< "-> ";
         nodes[i]->printAdy();
     }
     cout << endl;
