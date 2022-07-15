@@ -11,7 +11,7 @@ public:
     Path(int large);
     ~Path();
     void add(Node *newNode);
-    bool istaken(Node *theNode);
+    bool isTaken(Node *theNode);
     int getHighestDegree();
     int getSmallestDegree();
     Node *getHead();

@@ -22,6 +22,8 @@ private:
 public:
     // Constructor vacío
     Graph();
+    //Constructor a partir de nodos de un archivo de tipo .hcp
+    Graph(char p[]);
     // Constructor a partir de una cantidad de nodos señalado y probabilidad de conexión
     Graph(int cant, float p);
     // Destructor

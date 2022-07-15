@@ -42,7 +42,7 @@ int Path::getSmallestDegree(){
     return selected;
 }
 
-bool Path::istaken(Node *theNode){
+bool Path::isTaken(Node *theNode){
     return taken[theNode->getId()] == 1;
 }
 

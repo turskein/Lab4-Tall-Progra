@@ -25,7 +25,7 @@ Node *Solver::getSmallestDegreeFromNode(Node *theNode, Path *posiblyPath){
     //Primer for para encontrar un nodo no tomado
     for (int i = 0; i < N; i++){
         position = i;
-        if(!posiblyPath->istaken(theNode->getNode(i))){
+        if(!posiblyPath->isTaken(theNode->getNode(i))){
             selected = theNode->getNode(i);
             i=N;
         }
@@ -33,7 +33,7 @@ Node *Solver::getSmallestDegreeFromNode(Node *theNode, Path *posiblyPath){
 
     // For para determinar un nodo menor que el seleccionado
     for(int i = position+1; i < N; i++){
-        if(theNode->getNode(i)->getN() < selected->getN() && !posiblyPath->istaken(theNode->getNode(i))){
+        if(theNode->getNode(i)->getN() < selected->getN() && !posiblyPath->isTaken(theNode->getNode(i))){
             selected  = theNode->getNode(i);
         }
     }
@@ -55,7 +55,7 @@ Path *Solver::getPathForHighestDegree(Node *start){
 
 void Solver::getLongestPathForHighestDegree(){
     solution = getPathForHighestDegree(graph->getNode(sizeGraph-1));
-
+    
     Path *posiblyPath, *aux;
     int highest =graph->getNode(sizeGraph-1)->getN(), i = 2;
 
@@ -75,7 +75,6 @@ void Solver::getLongestPathForHighestDegree(){
 }
 
 bool Solver::rotationalTransformation(int opt){
-
     //Largo de la solucion
     int lengthSolution = solution->getLength(), i;
     // Indexacion de nodo seleccionado
@@ -83,77 +82,61 @@ bool Solver::rotationalTransformation(int opt){
     // Se usara bastante el nodo final de camino actual
     Node*head = solution->getHead();
 
-
-    // Opcion de obtener el nodo con menor cantidad de adyacentes libres
-    /* if(head->isAdy(solution->getNode(0)) && freeAdy[solution->getNode(0)->getId()] == 1)
-        selectedForNewEnd = 0;
-    else{
-        // Seleccion del nodo con menor cantidad de adyacentes libres
-        for (i = 1; i < lengthSolution; i++)
-        {
-            // Verificar que el anterior nodo anterior es adyacente al actual nodo final
-            if(head->isAdy(solution->getNode(i-1))){
-                // Si se encuentra un nodo con adyacentes libres == 1 es el elegido
-                if(freeAdy[solution->getNode(i)->getId()] == 1){
+    if(opt == 1){    // Seleccion del nodo con mayor cantidad de adyacentes libres
+        if (freeAdy[0] > 0)
+            selectedForNewEnd = 0;
+        else
+            for (i = 1; i < lengthSolution; i++){
+                // Verificar que el anterior nodo anterior es adyacente al actual nodo final
+                if(freeAdy[solution->getNode(i)->getId()] > 0 && head->isAdy(solution->getNode(i-1))){
                     selectedForNewEnd = i;
-                    i = lengthSolution;
-                }
-                // De otra manera se busca el primero que tenga caminos libres
-                if(freeAdy[solution->getNode(i)->getId()] > 0){
-                selectedForNewEnd = i;
-                break;
+                    break;
                 }
             }
-        }
-        
-        // Iteraciones para buscar el mas bajo
+
+        // Iteraciones para buscar el mas alto
         while(i < lengthSolution){
 
             if(head->isAdy(solution->getNode(i-1))){
-                // Si se encuentra un nodo con adyacentes libres == 1 es el elegido
-                if(freeAdy[solution->getNode(i)->getId()] == 1){
-                    selectedForNewEnd = i;
-                    i = lengthSolution;
-                }
-                // De otra manera se busca el primero que tenga caminos libres
-                if(freeAdy[selectedForNewEnd] > freeAdy[solution->getNode(i)->getId()])
+                // Actualiza el nodo en caso de encontrar un nodo con mas adyacentes libres
+                if(freeAdy[selectedForNewEnd] < freeAdy[solution->getNode(i)->getId()])
                     selectedForNewEnd = i;
             }
             i++;
         }
-    } */
+    }else if(opt == 0){
+        if (freeAdy[0] > 0)
+            selectedForNewEnd = 0;
+        else
+            for (i = 1; i < lengthSolution; i++){
+                // Verificar que el anterior nodo anterior es adyacente al actual nodo final
+                if(freeAdy[solution->getNode(i)->getId()] > 0 && head->isAdy(solution->getNode(i-1))){
+                    selectedForNewEnd = i;
+                    break;
+                }
+            }
+        
+        // Iteraciones para buscar el mas alto
+        while(i < lengthSolution){
 
-    // Seleccion del nodo con menor cantidad de adyacentes libres
-    for (i = 1; i < lengthSolution; i++)
-    {
-        // Verificar que el anterior nodo anterior es adyacente al actual nodo final
-        if(freeAdy[solution->getNode(i)->getId()] > 0 && head->isAdy(solution->getNode(i-1))){
-            selectedForNewEnd = i;
-            break;
+            if(head->isAdy(solution->getNode(i-1))){
+                // Actualiza el nodo en caso de encontrar un nodo con mas adyacentes libres
+                if(freeAdy[selectedForNewEnd] > freeAdy[solution->getNode(i)->getId()] && freeAdy[selectedForNewEnd] > 0)
+                    selectedForNewEnd = i;
+            }
+            i++;
         }
     }
-    
-    // Iteraciones para buscar el mas alto
-    while(i < lengthSolution){
 
-        if(head->isAdy(solution->getNode(i-1))){
-            // Actualiza el nodo en caso de encontrar un nodo con mas adyacentes libres
-            if(freeAdy[selectedForNewEnd] < freeAdy[solution->getNode(i)->getId()])
-                selectedForNewEnd = i;
+        if(selectedForNewEnd < 0){
+            return false;
         }
-        i++;
-    }
-    if(selectedForNewEnd < 0){
-        cout << "No se puede ejecutar una rotacion" << endl;
-        return false;
-    }
 
 
     Path *rotated = new Path(sizeGraph);
 
     //Se agregan todos los anteriores antes del nodo con mayor grado
     for (int i = 0; i < selectedForNewEnd; i++){
-        cout << ".";
         rotated->add(solution->getNode(i));
     }
     
@@ -174,8 +157,34 @@ bool Solver::rotationalTransformation(int opt){
     return true;
 }
 
+Node *Solver::getSmallestFreeAdyFromNode(Node *theNode, Path* posiblyPath){
+    int N = theNode->getN(), i;
+    Node *selected = nullptr;
+    //Primer for para encontrar un nodo no tomado
+    for (i = 0; i < N; i++){
+        if(!posiblyPath->isTaken(theNode->getNode(i)) && freeAdy[theNode->getNode(i)->getId()]>0){
+            selected = theNode->getNode(i);
+            break;
+        }
+    }
+
+    // For para determinar un nodo menor que el seleccionado
+    for(i = i+1; i < N; i++){
+        if(freeAdy[theNode->getNode(i)->getId()] < freeAdy[selected->getId()] && !posiblyPath->isTaken(theNode->getNode(i))){
+            selected  = theNode->getNode(i);
+        }
+    }
+    return selected;
+}
+/* Node *Solver::getHighestFreeAdyFromNode(Node *theNode, Path* posiblyPath){
+
+} */
+
 void Solver::getFreeAdy(){
+    /*Matriz para marcar las conexiones*/
     int **matrix = new int*[sizeGraph];
+
+    /*Obtener la cantidad total de conexiones por nodo*/
     for (int i = 0; i < sizeGraph; i++){
         matrix[i] = new int[sizeGraph];
         freeAdy[graph->getNode(i)->getId()] = graph->getNode(i)->getN();
@@ -189,7 +198,7 @@ void Solver::getFreeAdy(){
         id = theNode->getId();
         N =theNode->getN(); 
         for (int j = 0; j < N; j++){
-            if(matrix[id][theNode->getNode(j)->getId()] == 0 || matrix[theNode->getNode(j)->getId()][id] == 0){
+            if(matrix[id][theNode->getNode(j)->getId()] == 0){
                 freeAdy[id]--;
                 freeAdy[theNode->getNode(j)->getId()] --;
                 matrix[id][theNode->getNode(j)->getId()] = 1;
@@ -197,7 +206,12 @@ void Solver::getFreeAdy(){
             }
         }
     }
-    cout << endl;
+
+    for (int i = 0; i < sizeGraph; i++){
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+    
 }
 
 bool Solver::solve(){
@@ -206,35 +220,57 @@ bool Solver::solve(){
 
     // Se setea en solution el camino más largo para los nodos de mayor grado
     getLongestPathForHighestDegree();
-
-
+    
     // Obtener los adyacentes libre
     getFreeAdy();
 
-    cout << endl;
-
+    Node *head, *start ;
+    
+    solution->print();
     // Fase 2, extender el camino mas largo ya encontrado
     int i = 0;
     while(solution->getLength() != sizeGraph){
         if(!rotationalTransformation(1)){
             return false;
+        }else{
+
+            for (int i = 0; i < sizeGraph; i++)
+            {
+                cout << GREEN << i<< RED <<"->"<< freeAdy[i]<<"__";
+            }
+            cout << RESET << endl;
+            cout << "id de la nueva cabeza: "<<solution->getHead()->getId() << endl;
+            
+            solution->print();
         }
-        Node* start = solution->getHead();
-            if(i == 100)
+        
+        start = solution->getHead();
+            if(i == 10)
                 return false;
             while(1)
             {
                 i++;
                 start = getSmallestDegreeFromNode(start, solution);
                 if(start){
+                    cout << "id del elegido: "<<start->getId() << endl;
                     i = 0;
+                    head = solution->getHead();
                     solution->add(start);
-                }else{
+                    freeAdy[head->getId()]--;
+                    freeAdy[start->getId()]--;
+                }else
                     break;
-            }
         }
     }
+
+    return true;
     // Fase 3, transformar el camino mas corto ya encontrado
+    i = 0;
+    while(!solution->getHead()->isAdy(solution->getNode(0))){
+        if(!rotationalTransformation(0) || i == 1000)
+            return false;
+        i ++;
+    }
 
     return true;
 }
