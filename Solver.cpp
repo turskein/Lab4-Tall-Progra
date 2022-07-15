@@ -213,7 +213,6 @@ void Solver::getFreeAdy(){
     if(solution->getLength()>1){
     
     freeAdy[solution->getNode(1)->getId()]--;
-    freeAdy[solution->getNode(solution->getLength()-1)->getId()]--;
     }
 }
 
@@ -227,41 +226,30 @@ bool Solver::solve(){
     
     // Obtener los adyacentes libre
     getFreeAdy();
-    
+
     Node *start , * head;
     
     // Fase 2, extender el camino mas largo ya encontrado
     int i = 0, verify = 0;
     while(solution->getLength() != sizeGraph){
         if(!rotationalTransformation(1)){
-            solution->getHead()->printAdy();
-            for (int i = 0; i < sizeGraph; i++){
-            cout << GREEN << i << "->" <<RED<<freeAdy[i]<<"__" <<RESET;
-            }
-            cout << endl;
             if(verify == 1){
                 return false;    
             }else
                 verify = 1;
         }
-        for (int i = 0; i < sizeGraph; i++)
-        {
-            cout << GREEN << i << "->" <<RED<<freeAdy[i]<<"__" <<RESET;
-        }
-        cout << endl;
         
         start = solution->getHead();
         if(i == 10)
             return false;
         while(1)
         {
+            verify = 0;
             i++;
             start = getSmallestDegreeFromNode(start, solution);
             if(start){
                 i = 0;
-                verify = 0;
                 solution->add(start);
-                cout << "Elegido : "<< start->getId() <<endl;
                 Node *head = solution->getHead();
                 if(solution->getLength()>2){
                     freeAdy[solution->getNode(solution->getLength()-2)->getId()]--;

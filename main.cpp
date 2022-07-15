@@ -16,20 +16,21 @@ int main(){
     for (float i = 0; i < intentos; i++)
     {
         
-        for(float j = 1; j/intentos < 1; j++){
+        for(float j = 1; j/intentos < 1; j = j + 1){
             integer = intentos*i + j;
-            cout<< integer<<endl;
-            toSolve[integer] = new Graph(tamanio, j/intentos);
+            prob = j /intentos;
+            toSolve[integer] = new Graph(tamanio, prob);
             solution[integer] = new Solver(toSolve[integer]);
             
             t0 = clock();
             if(solution[integer]->solve()){
-               break; 
+                t1 = clock();
+                break; 
             }
             t1 = clock();
-            sleep(0.5);
-
-            prob = j/30;
+            toSolve[integer]->~Graph();
+            solution[integer]->~Solver();
+            
         }
         probAver = probAver + prob;
         time = (double(t1 - t0) / CLOCKS_PER_SEC);

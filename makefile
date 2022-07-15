@@ -25,7 +25,7 @@ Path.o: Path.h Path.cpp
 	g++ -c Path.cpp
 
 clean: cleanconditionals
-	rm -f test_graph *.o test_Node
+	rm -f test_graph *.o test_Node test_perfomance test_Solver test_graph test_GivenAlgorithm main
 
 cleanconditionals:
 	+$(CLEANCOND) -C conditionals
@@ -57,3 +57,7 @@ run_test: test_GivenAlgorithm.cpp node.o graph.o Path.o quickSort.o Solver.o tes
 run_main: main.cpp node.o graph.o Path.o quickSort.o Solver.o test_Solver.cpp
 	g++ main.cpp -o main node.o graph.o Path.o quickSort.o Solver.o
 	./main
+
+run_perfomance: test_perfomance.cpp node.o graph.o Path.o quickSort.o Solver.o
+	g++ test_perfomance.cpp -o test_perfomance node.o graph.o Path.o quickSort.o Solver.o
+	./test_perfomance

@@ -3,7 +3,6 @@
 Graph::Graph(){
 }
 Graph::Graph(int cant, float p){
-    srand(time(NULL));
     Graph::N = cant;
     Graph::nodes = new Node*[cant];
     
@@ -53,7 +52,7 @@ Graph::Graph(char p[]){
 }
 
 Graph::~Graph(){
-
+    delete[] nodes;
 }
 
 int Graph::getN(){
