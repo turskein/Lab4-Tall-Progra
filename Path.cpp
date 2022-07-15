@@ -2,12 +2,13 @@
 
 Path::Path(int large){
     N = large;
-    taken = new int[large];
+    taken = new bool[large];
     path = new Node*[large];
     position = 0;
 }
 Path::~Path(){
     delete[] taken;
+    delete[] path;
 }
 
 void Path::add(Node *newNode){
@@ -43,7 +44,7 @@ int Path::getSmallestDegree(){
 }
 
 bool Path::isTaken(Node *theNode){
-    return taken[theNode->getId()] == 1;
+    return taken[theNode->getId()];
 }
 
 Node *Path::getHead(){

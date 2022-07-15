@@ -53,3 +53,7 @@ run_Solver: node.o graph.o Path.o quickSort.o Solver.o test_Solver.cpp
 run_test: test_GivenAlgorithm.cpp node.o graph.o Path.o quickSort.o Solver.o test_Solver.cpp
 	g++ test_GivenAlgorithm.cpp -o test_GivenAlgorithm node.o graph.o Path.o quickSort.o Solver.o
 	./test_GivenAlgorithm
+
+run_main: main.cpp node.o graph.o Path.o quickSort.o Solver.o test_Solver.cpp
+	g++ main.cpp -o main node.o graph.o Path.o quickSort.o Solver.o
+	./main

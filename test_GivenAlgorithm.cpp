@@ -4,7 +4,7 @@ using std::vector;
 using namespace std;
 
 int main(){
-    char file[100] = "./graphs/graph1.hcp";
+    char file[100] = "./graphs/graph10.hcp";
 
     Graph *newGraph = new Graph(file);
 

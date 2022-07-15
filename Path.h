@@ -6,7 +6,7 @@ private:
     int N;
     Node **path;
     int position;
-    int *taken;
+    bool *taken;
 public:
     Path(int large);
     ~Path();

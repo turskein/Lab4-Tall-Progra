@@ -45,6 +45,8 @@ public:
     /**/
     bool rotationalTransformation(int opt);
 
+    void invertSol();
+
     Path *getPath();
 
     bool solve();
