@@ -1,0 +1,44 @@
+NAME : graph1.hcp
+COMMENT : FHCP Challenge Set. http://fhcp.edu.au/fhcpcs
+TYPE : HCP
+DIMENSION : 24
+EDGE_DATA_FORMAT : EDGE_LIST
+EDGE_DATA_SECTION
+1 2
+1 8
+1 9
+2 10
+2 3
+3 10
+3 4
+4 11
+4 5
+5 11
+5 6
+6 12
+6 7
+7 12
+7 8
+8 9
+9 13
+10 17
+11 20
+12 24
+13 14
+13 15
+14 16
+14 15
+15 23
+16 17
+16 18
+17 18
+18 19
+19 20
+19 21
+20 21
+21 22
+22 24
+22 23
+23 24
+-1
+EOF

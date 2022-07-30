@@ -3,6 +3,9 @@
 #include <iostream>
 #include <time.h>
 #include "Path.h"
+#include "Conditional.h"
+#include "cond_op1.h"
+#include "sort.h"
 
 using namespace std;
 
@@ -16,7 +19,6 @@ private:
     Graph *graph;
     Path *solution;
     int sizeGraph;
-    int *freeAdy;
 public:
     Solver();
     Solver(Graph *objective);
@@ -26,14 +28,15 @@ public:
     void getFreeAdy();
 
     /*Ordena de mayor a menor todos los nodos*/
-    void sort();
+    bool sort();
 
     /*Obtiene el nodo con menor grado de un nodo en particular, esto siempre y cuando no este
     ocupado en el camino*/
-    Node *getSmallestDegreeFromNode(Node *theNode, Path *posiblyPath);
+    bool extendSolution(Path *posiblyPath);
 
-    Node *getSmallestFreeAdyFromNode(Node *theNode, Path* posiblyPath);
-    Node *getHighestFreeAdyFromNode(Node *theNode, Path* posiblyPath);
+    /*Obtiene el nodo con menor grado de un nodo en particular, esto siempre y cuando no este
+    ocupado en el camino*/
+    Node *getSmallestDegreeFromNodeWithRestrictions(Path *posiblyPath);
 
     /*Consigue un camino empezando con un nodo con grado alto para continuar
     consiguiendo los de menor grado, esto hasta quedarse bloqueado*/
@@ -42,12 +45,20 @@ public:
     /*Setea en 'solution' el camino mas largo considerando solo los nodos con mayor grado*/
     void getLongestPathForHighestDegree();
 
-    /**/
+    /*Metodo incorporado del paper entregado*/
     bool rotationalTransformation(int opt);
 
+    /*Invierte la solucion actualmente conseguida*/
     void invertSol();
 
+    /*Entrega el camino actual*/
     Path *getPath();
 
+    /*Encuentra y verifica si existe un ciclo hamiltoniano en el grafo entregado*/
     bool solve();
+
+    /*Redefine sus variables*/
+    void reset(Graph *objective);
+
+    bool addAloneNodes();
 };

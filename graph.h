@@ -19,6 +19,8 @@ private:
     int N;
     // Donde se guardan los distintos nodos
     Node **nodes;
+    // Elimina las conexiones de todos los nodos
+    void clearAdy();
 public:
     // Constructor vacío
     Graph();
@@ -38,6 +40,9 @@ public:
     Node *solve();
     // Obtiene el array de nodos
     Node **getAllNodes();
+    /* Elimina las conexiones antiguas de los 
+    nodos para recrearlo de acuerdo a una nueva probabilidad*/
+    void reset(float p);
 };
 
 #endif

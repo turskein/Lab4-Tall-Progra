@@ -5,7 +5,7 @@ int main(){
 
 
     int N = 10000;
-    float probability = 0.01;
+    float probability = 0.1;
 
     Graph *newGraph = new Graph(N,probability);
     

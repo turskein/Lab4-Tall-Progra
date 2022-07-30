@@ -18,6 +18,8 @@ private:
     int N;
     // Nodos a los que tiene acceso
     vector <Node*> ady;
+
+    Node *next;
 public:
     // Constructor sin parámetros
     Node();
@@ -37,6 +39,12 @@ public:
     Node* getNode(int i);
     // Imprimir los identificadores de los nodos adyacentes
     void printAdy();
+    //Elimina todas las conexiones con los otros nodos
+    void clearAdy();
+
+    void stacker(Node *theNext);
+
+    Node *getNext();
 };
 
 #endif

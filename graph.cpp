@@ -3,6 +3,7 @@
 Graph::Graph(){
 }
 Graph::Graph(int cant, float p){
+    srand(time(NULL));
     Graph::N = cant;
     Graph::nodes = new Node*[cant];
     
@@ -73,5 +74,22 @@ void Graph::print(){
 
 Node **Graph::getAllNodes(){
     return nodes;
+}
+
+void Graph::clearAdy(){
+    for (int i = 0; i < N; i++){
+        nodes[i]->clearAdy();
+    }
+}
+
+void Graph::reset(float p){
+    clearAdy();
+    srand(rand());
+    for(int i = 0; i < N; i++)
+        for(int j = i + 1; j < N; j++)
+            if((double(rand())/RAND_MAX) < p){
+                nodes[i]->addAdy(nodes[j]);
+                nodes[j]->addAdy(nodes[i]);
+        }
 }
 
